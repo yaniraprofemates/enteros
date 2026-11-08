@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SA1: De los naturales a los enteros - IES El Mayorazgo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html2pdf.js para exportar el informe -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        institucional: {
+                            purpura: '#7B3E7D',
+                            verde: '#2E9B70',
+                            amarillo: '#EBA833',
+                            fondo: '#F9F6FA',
+                            card: '#FFFFFF'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .module-step { display: none; }
+        .module-step.active { display: block; }
+        input[type="text"], input[type="number"] {
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #7B3E7D;
+            box-shadow: 0 0 0 3px rgba(123, 62, 125, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-institucional-fondo text-gray-800 font-sans min-h-screen pb-12">
+
+    <!-- CABECERA INSTITUCIONAL -->
+    <header class="bg-institucional-purpura text-white shadow-md">
+        <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between">
+            <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                <div class="w-12 h-12 bg-institucional-amarillo rounded-full flex items-center justify-center text-institucional-purpura font-bold text-xl shadow">
+                    IES
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold tracking-wide">IES El Mayorazgo</h1>
+                    <p class="text-xs text-purple-200 uppercase tracking-wider">La Orotava · Departamento de Matemáticas</p>
+                </div>
+            </div>
+            <div class="text-center md:text-right">
+                <span class="inline-block bg-institucional-verde text-white text-xs font-semibold px-3 py-1 rounded-full uppercase mb-1">1º ESO</span>
+                <h2 class="text-lg font-semibold">SA1: De los naturales a los enteros</h2>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 mt-8">
+
+        <!-- DATOS DEL ALUMNADO -->
+        <div class="bg-white rounded-xl shadow-sm border border-purple-100 p-6 mb-8">
+            <h3 class="text-lg font-bold text-institucional-purpura mb-4 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                Datos Identificativos del Alumnado
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Nombre y Apellidos</label>
+                    <input type="text" id="alumno-nombre" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Grupo / Curso</label>
+                    <input type="text" id="alumno-grupo" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Fecha</label>
+                    <input type="text" id="alumno-fecha" placeholder="DD/MM/AAAA" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                </div>
+            </div>
+        </div>
+
+        <!-- INDICADOR DE PROGRESO -->
+        <div class="bg-white rounded-xl shadow-sm border border-purple-100 p-4 mb-8">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-xs font-bold text-institucional-purpura uppercase tracking-wider">Progreso de la actividad</span>
+                <span id="progress-text" class="text-xs font-bold text-institucional-verde">Módulo 1 de 4</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div id="progress-bar" class="bg-institucional-verde h-2.5 rounded-full transition-all duration-300" style="width: 25%"></div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 1 -->
+        <div id="module-1" class="module-step active bg-white rounded-xl shadow-sm border border-purple-100 p-6 md:p-8">
+            <div class="border-b border-gray-100 pb-4 mb-6">
+                <span class="text-xs font-bold text-institucional-purpura uppercase tracking-wider">Módulo 1</span>
+                <h3 class="text-xl font-bold text-gray-800">Números Naturales y Sistema Decimal</h3>
+                <p class="text-xs text-gray-500 mt-1">Evaluación de Competencias: CE 1.1, CE 1.3</p>
+            </div>
+
+            <div class="mb-8 bg-purple-50/50 p-4 rounded-lg border border-purple-100">
+                <p class="font-semibold text-gray-800 mb-2">1. Indica el valor posicional de la cifra destacada en el número 2<span class="text-institucional-purpura font-bold underline">3</span>9.627:</p>
+                <div class="space-y-2">
+                    <input type="text" id="m1-p1" class="w-full md:w-64 px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                    <p class="text-xs text-gray-500">Nota: Escribe la cifra sin usar puntos de miles.</p>
+                </div>
+            </div>
+
+            <div class="mb-8 bg-purple-50/50 p-4 rounded-lg border border-purple-100">
+                <p class="font-semibold text-gray-800 mb-2">2. Descompón el número 405.820 según sus órdenes de unidad:</p>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-3 text-sm">
+                    <div>
+                        <label class="block text-xs text-gray-600">CM:</label>
+                        <input type="number" id="m1-p2-cm" class="w-full px-2 py-1 border border-gray-300 rounded">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-600">DM:</label>
+                        <input type="number" id="m1-p2-dm" class="w-full px-2 py-1 border border-gray-300 rounded">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-600">UM:</label>
+                        <input type="number" id="m1-p2-um" class="w-full px-2 py-1 border border-gray-300 rounded">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-600">C:</label>
+                        <input type="number" id="m1-p2-c" class="w-full px-2 py-1 border border-gray-300 rounded">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-600">D:</label>
+                        <input type="number" id="m1-p2-d" class="w-full px-2 py-1 border border-gray-300 rounded">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-8 bg-purple-50/50 p-4 rounded-lg border border-purple-100">
+                <p class="font-semibold text-gray-800 mb-2">3. Ordena los siguientes números naturales de MENOR a MAYOR separados por comas:</p>
+                <p class="text-sm font-bold text-institucional-purpura mb-3">125.040, 125.400, 120.540, 125.004</p>
+                <input type="text" id="m1-p3" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                <p class="text-xs text-gray-500 mt-1">Escribe los números sin puntos de miles y separados por coma.</p>
+            </div>
+
+            <button onclick="nextModule(1)" class="bg-institucional-purpura text-white px-6 py-2.5 rounded-lg font-semibold shadow hover:bg-purple-900 transition flex items-center ml-auto">
+                Validar y Continuar
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </button>
+        </div>
+
+        <!-- MÓDULO 2 -->
+        <div id="module-2" class="module-step bg-white rounded-xl shadow-sm border border-purple-100 p-6 md:p-8">
+            <div class="border-b border-gray-100 pb-4 mb-6">
+                <span class="text-xs font-bold text-institucional-purpura uppercase tracking-wider">Módulo 2</span>
+                <h3 class="text-xl font-bold text-gray-800">Jerarquía y Operaciones Combinadas</h3>
+                <p class="text-xs text-gray-500 mt-1">Evaluación de Competencias: CE 1.3, CE 2.1</p>
+            </div>
+
+            <p class="text-sm text-gray-600 mb-6">Calcula el resultado respetando la jerarquía de operaciones:</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="p-4 bg-purple-50/50 rounded-lg border border-purple-100">
+                    <label class="block font-semibold text-gray-800 mb-2">a) 15 + 5 · 4 - 12</label>
+                    <input type="number" id="m2-p1" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                </div>
+
+                <div class="p-4 bg-purple-50/50 rounded-lg border border-purple-100">
+                    <label class="block font-semibold text-gray-800 mb-2">b) 30 - 3 · (8 - 2)</label>
+                    <input type="number" id="m2-p2" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                </div>
+
+                <div class="p-4 bg-purple-50/50 rounded-lg border border-purple-100">
+                    <label class="block font-semibold text-gray-800 mb-2">c) 40 : (12 - 4) + 6</label>
+                    <input type="number" id="m2-p3" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                </div>
+
+                <div class="p-4 bg-purple-50/50 rounded-lg border border-purple-100">
+                    <label class="block font-semibold text-gray-800 mb-2">d) 8 · 5 - 24 : 3</label>
+                    <input type="number" id="m2-p4" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                </div>
+            </div>
+
+            <div class="flex justify-between">
+                <button onclick="prevModule(2)" class="bg-gray-200 text-gray-700 px-6 py-2.5 rounded-lg font-semibold hover:bg-gray-300 transition">Anterior</button>
+                <button onclick="nextModule(2)" class="bg-institucional-purpura text-white px-6 py-2.5 rounded-lg font-semibold shadow hover:bg-purple-900 transition flex items-center">
+                    Validar y Continuar
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- MÓDULO 3 -->
+        <div id="module-3" class="module-step bg-white rounded-xl shadow-sm border border-purple-100 p-6 md:p-8">
+            <div class="border-b border-gray-100 pb-4 mb-6">
+                <span class="text-xs font-bold text-institucional-purpura uppercase tracking-wider">Módulo 3</span>
+                <h3 class="text-xl font-bold text-gray-800">Números Enteros en Entornos Reales y Ordenación</h3>
+                <p class="text-xs text-gray-500 mt-1">Evaluación de Competencias: CE 1.3, CE 3.1, CE 6.1</p>
+            </div>
+
+            <div class="mb-8 bg-purple-50/50 p-4 rounded-lg border border-purple-100">
+                <h4 class="font-bold text-institucional-purpura mb-2">1. Variación térmica en Las Cañadas del Teide</h4>
+                <p class="text-sm text-gray-700 mb-3">
+                    A las 07:00 en Las Cañadas del Teide se registra una temperatura de <strong>-3 ºC</strong>. Al mediodía, la temperatura sube <strong>11 ºC</strong>, y durante la noche desciende <strong>9 ºC</strong>.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-600 mb-1">Temperatura al mediodía (ºC):</label>
+                        <input type="number" id="m3-p1-a" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-600 mb-1">Temperatura final en la noche (ºC):</label>
+                        <input type="number" id="m3-p1-b" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-8 bg-purple-50/50 p-4 rounded-lg border border-purple-100">
+                <h4 class="font-bold text-institucional-purpura mb-2">2. El ascensor del Centro Comercial en La Orotava</h4>
+                <p class="text-sm text-gray-700 mb-3">
+                    Un ascensor está en la planta <strong>-2</strong> (sótano). Sube <strong>5 plantas</strong>, baja <strong>4 plantas</strong> y finalmente sube <strong>3 plantas</strong>.
+                </p>
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 mb-1">Planta final en la que se detiene el ascensor:</label>
+                    <input type="number" id="m3-p2" class="w-full md:w-64 px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                </div>
+            </div>
+
+            <div class="mb-8 bg-purple-50/50 p-4 rounded-lg border border-purple-100">
+                <h4 class="font-bold text-institucional-purpura mb-2">3. Ordenación de Números Enteros</h4>
+                <p class="text-sm text-gray-700 mb-2">Ordena los siguientes números enteros de <strong>MENOR a MAYOR</strong> separados por comas:</p>
+                <p class="text-sm font-bold text-institucional-purpura mb-3">-4,  +5,  -8,  0,  +2,  -1</p>
+                <input type="text" id="m3-p3" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                <p class="text-xs text-gray-500 mt-1">Escribe los números conservando sus signos y separados por comas.</p>
+            </div>
+
+            <div class="flex justify-between">
+                <button onclick="prevModule(3)" class="bg-gray-200 text-gray-700 px-6 py-2.5 rounded-lg font-semibold hover:bg-gray-300 transition">Anterior</button>
+                <button onclick="nextModule(3)" class="bg-institucional-purpura text-white px-6 py-2.5 rounded-lg font-semibold shadow hover:bg-purple-900 transition flex items-center">
+                    Validar y Continuar
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- MÓDULO 4 -->
+        <div id="module-4" class="module-step bg-white rounded-xl shadow-sm border border-purple-100 p-6 md:p-8">
+            <div class="border-b border-gray-100 pb-4 mb-6">
+                <span class="text-xs font-bold text-institucional-purpura uppercase tracking-wider">Módulo 4</span>
+                <h3 class="text-xl font-bold text-gray-800">Operaciones con Números Enteros</h3>
+                <p class="text-xs text-gray-500 mt-1">Evaluación de Competencias: CE 2.1</p>
+            </div>
+
+            <div class="mb-8 bg-purple-50/50 p-4 rounded-lg border border-purple-100">
+                <h4 class="font-bold text-institucional-purpura mb-3">Calcula las siguientes operaciones con enteros indicando el signo correspondiente:</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">a) (-8) + (-5) =</label>
+                        <input type="number" id="m4-p1-a" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">b) (-12) - (-7) =</label>
+                        <input type="number" id="m4-p1-b" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">c) (-4) · (+6) =</label>
+                        <input type="number" id="m4-p1-c" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">d) (-35) : (-5) =</label>
+                        <input type="number" id="m4-p1-d" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between">
+                <button onclick="prevModule(4)" class="bg-gray-200 text-gray-700 px-6 py-2.5 rounded-lg font-semibold hover:bg-gray-300 transition">Anterior</button>
+                <button onclick="finishTask()" class="bg-institucional-verde text-white px-6 py-2.5 rounded-lg font-semibold shadow hover:bg-emerald-700 transition flex items-center">
+                    Finalizar y Generar Informe PDF
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- RESUMEN FINAL / RESULTADOS -->
+        <div id="module-summary" class="module-step bg-white rounded-xl shadow-sm border border-purple-100 p-6 md:p-8">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-emerald-100 text-institucional-verde rounded-full flex items-center justify-center mx-auto mb-3">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800">¡Actividad Completada!</h3>
+                <p class="text-gray-600 text-sm">Se ha generado la evaluación cualitativa de 1º ESO según los Criterios de Evaluación del IES El Mayorazgo.</p>
+            </div>
+
+            <div class="bg-purple-50 rounded-xl p-6 mb-8 border border-purple-100">
+                <h4 class="font-bold text-institucional-purpura uppercase text-xs tracking-wider mb-4">Calificaciones Cualitativas por Criterio</h4>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-3 text-center">
+                    <div class="bg-white p-3 rounded-lg border border-purple-100">
+                        <span class="block text-xs font-semibold text-gray-500">CE 1.1 (Mód. 1)</span>
+                        <span id="score-ce11" class="text-base font-bold text-institucional-purpura">-</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-purple-100">
+                        <span class="block text-xs font-semibold text-gray-500">CE 1.3 (Mód. 1, 2 y 3)</span>
+                        <span id="score-ce13" class="text-base font-bold text-institucional-purpura">-</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-purple-100">
+                        <span class="block text-xs font-semibold text-gray-500">CE 2.1 (Mód. 2 y 4)</span>
+                        <span id="score-ce21" class="text-base font-bold text-institucional-purpura">-</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-purple-100">
+                        <span class="block text-xs font-semibold text-gray-500">CE 3.1 (Mód. 3)</span>
+                        <span id="score-ce31" class="text-base font-bold text-institucional-purpura">-</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-purple-100">
+                        <span class="block text-xs font-semibold text-gray-500">CE 6.1 (Mód. 3)</span>
+                        <span id="score-ce61" class="text-base font-bold text-institucional-purpura">-</span>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-purple-200 flex justify-between items-center">
+                    <span class="font-bold text-gray-700">Calificación Global SA1:</span>
+                    <span id="score-final" class="text-2xl font-black text-institucional-verde">-</span>
+                </div>
+            </div>
+
+            <div class="flex justify-center">
+                <button onclick="downloadPDF()" class="bg-institucional-purpura text-white px-8 py-3 rounded-lg font-bold shadow hover:bg-purple-900 transition flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Descargar Informe PDF Oficial
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- PLANTILLA DE INFORME PDF CON REGLAS ESTRICTAS DE TABLA HTML (Evita superposición) -->
+    <div id="pdf-container" style="position: absolute; left: -9999px; top: -9999px;">
+        <div id="pdf-template" style="width: 700px; padding: 20px; font-family: Arial, sans-serif; background-color: #ffffff; color: #333333; box-sizing: border-box;">
+            
+            <!-- ENCABEZADO ESTRUCTURADO EN TABLA -->
+            <table style="width: 100%; border-collapse: collapse; border-bottom: 2px solid #7B3E7D; margin-bottom: 10px; table-layout: fixed;">
+                <tr>
+                    <td style="width: 65%; vertical-align: top; padding-bottom: 6px;">
+                        <h1 style="margin: 0; font-size: 16px; color: #7B3E7D; font-weight: bold;">IES El Mayorazgo</h1>
+                        <div style="font-size: 9px; color: #666666; margin-top: 1px;">La Orotava · Departamento de Matemáticas (1º ESO)</div>
+                        <div style="font-size: 10px; font-weight: bold; color: #2E9B70; margin-top: 3px;">INFORME DE EVALUACIÓN: SA1 - De los naturales a los enteros</div>
+                    </td>
+                    <td style="width: 35%; vertical-align: top; text-align: right; font-size: 9px; line-height: 1.3; padding-bottom: 6px;">
+                        <div><strong>Alumno/a:</strong> <span id="pdf-nombre"></span></div>
+                        <div><strong>Grupo:</strong> <span id="pdf-grupo"></span></div>
+                        <div><strong>Fecha:</strong> <span id="pdf-fecha"></span></div>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- SECCIÓN 1: TABLA DE CRITERIOS DE EVALUACIÓN -->
+            <div style="font-size: 9px; font-weight: bold; color: #7B3E7D; margin-bottom: 4px; text-transform: uppercase;">Resultados por Criterio de Evaluación</div>
+            <table style="width: 100%; border-collapse: collapse; font-size: 8.5px; margin-bottom: 8px; table-layout: fixed;">
+                <thead>
+                    <tr style="background-color: #7B3E7D; color: #ffffff;">
+                        <th style="border: 1px solid #7B3E7D; padding: 3px; text-align: center; width: 18%;">Módulo/s</th>
+                        <th style="border: 1px solid #7B3E7D; padding: 3px; text-align: left; width: 57%;">Criterio de Evaluación</th>
+                        <th style="border: 1px solid #7B3E7D; padding: 3px; text-align: center; width: 25%;">Calificación</th>
+                    </tr>
+                </thead>
+                <tbody id="pdf-ce-table">
+                    <!-- Filas inyectadas dinámicamente con tr/td propios -->
+                </tbody>
+            </table>
+
+            <!-- NOTA GLOBAL ESTRUCTURADA EN TABLA (Evita superposición con la siguiente tabla) -->
+            <table style="width: 100%; border-collapse: collapse; background-color: #F9F6FA; border: 1px solid #7B3E7D; margin-bottom: 10px; table-layout: fixed;">
+                <tr>
+                    <td style="padding: 5px 10px; font-size: 9px; font-weight: bold; color: #333333; text-align: left; width: 70%;">
+                        CALIFICACIÓN GLOBAL DE LA SITUACIÓN DE APRENDIZAJE:
+                    </td>
+                    <td style="padding: 5px 10px; font-size: 11px; font-weight: bold; color: #7B3E7D; text-align: right; width: 30%;" id="pdf-final-grade">
+                        -
+                    </td>
+                </tr>
+            </table>
+
+            <!-- SECCIÓN 2: DETALLE DE REVISIÓN Y FALLOS DETECTADOS -->
+            <div style="font-size: 9px; font-weight: bold; color: #7B3E7D; margin-bottom: 4px; text-transform: uppercase;">Detalle de Revisión y Fallos Detectados</div>
+            <table style="width: 100%; border-collapse: collapse; font-size: 8px; margin-bottom: 8px; table-layout: fixed;">
+                <thead>
+                    <tr style="background-color: #f3f4f6; color: #374151;">
+                        <th style="border: 1px solid #d1d5db; padding: 2px 4px; text-align: center; width: 12%;">Módulo</th>
+                        <th style="border: 1px solid #d1d5db; padding: 2px 4px; text-align: left; width: 48%;">Pregunta / Ejercicio</th>
+                        <th style="border: 1px solid #d1d5db; padding: 2px 4px; text-align: center; width: 20%;">Tu Respuesta</th>
+                        <th style="border: 1px solid #d1d5db; padding: 2px 4px; text-align: center; width: 20%;">Resultado</th>
+                    </tr>
+                </thead>
+                <tbody id="pdf-errors-table">
+                    <!-- Filas inyectadas dinámicamente -->
+                </tbody>
+            </table>
+
+            <!-- PIE DE PÁGINA INSTITUCIONAL -->
+            <div style="font-size: 7.5px; color: #666666; border: 1px solid #e5e7eb; padding: 3px; border-radius: 3px; margin-bottom: 4px; background-color: #fafafa; text-align: center;">
+                <strong>Escala Cualitativa LOMLOE:</strong> IN: Insuficiente (1-4) | SU: Suficiente (5) | BI: Bien (6) | NT: Notable (7-8) | SB: Sobresaliente (9-10)
+            </div>
+
+            <div style="font-size: 7.5px; color: #888888; font-style: italic; text-align: center; border-top: 1px solid #eeeeee; padding-top: 3px; margin: 0;">
+                Documento de evaluación continua emitido por el Departamento de Matemáticas del IES El Mayorazgo.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentModule = 1;
+
+        function nextModule(from) {
+            if(from === 1) {
+                const val1 = document.getElementById('m1-p1').value.trim();
+                if(val1.includes('.')) {
+                    alert('Atención: Introduce las cifras sin usar puntos de miles.');
+                    return;
+                }
+            }
+            
+            document.getElementById(`module-${from}`).classList.remove('active');
+            currentModule = from + 1;
+            document.getElementById(`module-${currentModule}`).classList.add('active');
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function prevModule(from) {
+            document.getElementById(`module-${from}`).classList.remove('active');
+            currentModule = from - 1;
+            document.getElementById(`module-${currentModule}`).classList.add('active');
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateProgress() {
+            const bar = document.getElementById('progress-bar');
+            const text = document.getElementById('progress-text');
+            
+            if(currentModule <= 4) {
+                bar.style.width = `${currentModule * 25}%`;
+                text.innerText = `Módulo ${currentModule} de 4`;
+            } else {
+                bar.style.width = `100%`;
+                text.innerText = `Completado`;
+            }
+        }
+
+        function finishTask() {
+            document.getElementById('module-4').classList.remove('active');
+            document.getElementById('module-summary').classList.add('active');
+            currentModule = 5;
+            updateProgress();
+            calculateGrades();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function getQualitativeGrade(score) {
+            if (score < 5) return { code: 'IN', text: 'Insuficiente (' + score.toFixed(1) + ')' };
+            if (score < 6) return { code: 'SU', text: 'Suficiente (' + score.toFixed(1) + ')' };
+            if (score < 7) return { code: 'BI', text: 'Bien (' + score.toFixed(1) + ')' };
+            if (score < 9) return { code: 'NT', text: 'Notable (' + score.toFixed(1) + ')' };
+            return { code: 'SB', text: 'Sobresaliente (' + score.toFixed(1) + ')' };
+        }
+
+        function calculateGrades() {
+            // Módulo 1
+            const raw_m1_1 = document.getElementById('m1-p1').value.trim();
+            const m1_1 = raw_m1_1 === '30000';
+            
+            const cm = parseInt(document.getElementById('m1-p2-cm').value);
+            const dm = parseInt(document.getElementById('m1-p2-dm').value);
+            const um = parseInt(document.getElementById('m1-p2-um').value);
+            const c = parseInt(document.getElementById('m1-p2-c').value);
+            const d = parseInt(document.getElementById('m1-p2-d').value);
+            const m1_2 = (cm === 4 && dm === 0 && um === 5 && c === 8 && d === 2);
+            
+            const raw_m1_3 = document.getElementById('m1-p3').value.replace(/\s+/g, '');
+            const m1_3 = raw_m1_3 === '120540,125004,125040,125400';
+
+            // Módulo 2
+            const val_m2_1 = parseInt(document.getElementById('m2-p1').value);
+            const m2_1 = val_m2_1 === 23;
+            
+            const val_m2_2 = parseInt(document.getElementById('m2-p2').value);
+            const m2_2 = val_m2_2 === 12;
+            
+            const val_m2_3 = parseInt(document.getElementById('m2-p3').value);
+            const m2_3 = val_m2_3 === 11;
+            
+            const val_m2_4 = parseInt(document.getElementById('m2-p4').value);
+            const m2_4 = val_m2_4 === 32;
+
+            // Módulo 3
+            const val_m3_1a = parseInt(document.getElementById('m3-p1-a').value);
+            const m3_1a = val_m3_1a === 8;
+            
+            const val_m3_1b = parseInt(document.getElementById('m3-p1-b').value);
+            const m3_1b = val_m3_1b === -1;
+            
+            const val_m3_2 = parseInt(document.getElementById('m3-p2').value);
+            const m3_2 = val_m3_2 === 2;
+
+            const raw_m3_3 = document.getElementById('m3-p3').value.replace(/\s+/g, '');
+            const m3_3 = raw_m3_3 === '-8,-4,-1,0,2,5' || raw_m3_3 === '-8,-4,-1,0,+2,+5';
+
+            // Módulo 4
+            const val_m4_1a = parseInt(document.getElementById('m4-p1-a').value);
+            const m4_1a = val_m4_1a === -13;
+            
+            const val_m4_1b = parseInt(document.getElementById('m4-p1-b').value);
+            const m4_1b = val_m4_1b === -5;
+            
+            const val_m4_1c = parseInt(document.getElementById('m4-p1-c').value);
+            const m4_1c = val_m4_1c === -24;
+            
+            const val_m4_1d = parseInt(document.getElementById('m4-p1-d').value);
+            const m4_1d = val_m4_1d === 7;
+
+            // Criterios 1º ESO
+            const n_ce11 = ((m1_1 ? 1 : 0) + (m1_2 ? 1 : 0)) / 2 * 10;
+            const n_ce13 = ((m1_3 ? 1 : 0) + (m2_1 ? 1 : 0) + (m2_2 ? 1 : 0) + (m3_3 ? 1 : 0)) / 4 * 10;
+            const n_ce21 = ((m2_3 ? 1 : 0) + (m2_4 ? 1 : 0) + (m4_1a ? 1 : 0) + (m4_1b ? 1 : 0) + (m4_1c ? 1 : 0) + (m4_1d ? 1 : 0)) / 6 * 10;
+            const n_ce31 = ((m3_1a ? 1 : 0) + (m3_1b ? 1 : 0)) / 2 * 10;
+            const n_ce61 = (m3_2 ? 1 : 0) * 10;
+
+            const n_final = (n_ce11 + n_ce13 + n_ce21 + n_ce31 + n_ce61) / 5;
+
+            // Cualitativas
+            const q_ce11 = getQualitativeGrade(n_ce11);
+            const q_ce13 = getQualitativeGrade(n_ce13);
+            const q_ce21 = getQualitativeGrade(n_ce21);
+            const q_ce31 = getQualitativeGrade(n_ce31);
+            const q_ce61 = getQualitativeGrade(n_ce61);
+            const q_final = getQualitativeGrade(n_final);
+
+            // Mostrar en pantalla
+            document.getElementById('score-ce11').innerText = q_ce11.text;
+            document.getElementById('score-ce13').innerText = q_ce13.text;
+            document.getElementById('score-ce21').innerText = q_ce21.text;
+            document.getElementById('score-ce31').innerText = q_ce31.text;
+            document.getElementById('score-ce61').innerText = q_ce61.text;
+            document.getElementById('score-final').innerText = q_final.text;
+
+            // Datos del informe PDF
+            document.getElementById('pdf-nombre').innerText = document.getElementById('alumno-nombre').value || 'Sin especificar';
+            document.getElementById('pdf-grupo').innerText = document.getElementById('alumno-grupo').value || 'Sin especificar';
+            document.getElementById('pdf-fecha').innerText = document.getElementById('alumno-fecha').value || 'Sin especificar';
+
+            document.getElementById('pdf-ce-table').innerHTML = `
+                <tr style="background-color: #ffffff;">
+                    <td style="border: 1px solid #d1d5db; padding: 3px 5px; text-align: center; font-weight: bold;">Módulo 1</td>
+                    <td style="border: 1px solid #d1d5db; padding: 3px 5px;">CE 1.1 - Manejo de órdenes de unidad y sistema decimal</td>
+                    <td style="border: 1px solid #d1d5db; padding: 3px 5px; text-align: center; font-weight: bold; color: #7B3E7D;">${q_ce11.text}</td>
+                </tr>
+                <tr style="background-color: #f9fafb;">
+                    <td style="border: 1px solid #d1d5db; padding: 3px 5px; text-align: center; font-weight: bold;">Módulos 1, 2 y 3</td>
+                    <td style="border: 1px solid #d1d5db; padding: 3px 5px;">CE 1.3 - Ordenación de números y operaciones combinadas sencillas</td>
+                    <td style="border: 1px solid #d1d5db; padding: 3px 5px; text-align: center; font-weight: bold; color: #7B3E7D;">${q_ce13.text}</td>
+                </tr>
+                <tr style="background-color: #ffffff;">
+                    <td style="border: 1px solid #d1d5db; padding: 3px 5px; text-align: center; font-weight: bold;">Módulos 2 y 4</td>
+                    <td style="border: 1px solid #d1d5db; padding: 3px 5px;">CE 2.1 - Jerarquía de operaciones y cálculo con números enteros</td>
+                    <td style="border: 1px solid #d1d5db; padding: 3px 5px; text-align: center; font-weight: bold; color: #7B3E7D;">${q_ce21.text}</td>
+                </tr>
+                <tr style="background-color: #f9fafb;">
+                    <td style="border: 1px solid #d1d5db; padding: 3px 5px; text-align: center; font-weight: bold;">Módulo 3</td>
+                    <td style="border: 1px solid #d1d5db; padding: 3px 5px;">CE 3.1 - Resolución de problemas contextualizados (temperaturas)</td>
+                    <td style="border: 1px solid #d1d5db; padding: 3px 5px; text-align: center; font-weight: bold; color: #7B3E7D;">${q_ce31.text}</td>
+                </tr>
+                <tr style="background-color: #ffffff;">
+                    <td style="border: 1px solid #d1d5db; padding: 3px 5px; text-align: center; font-weight: bold;">Módulo 3</td>
+                    <td style="border: 1px solid #d1d5db; padding: 3px 5px;">CE 6.1 - Modelización de desplazamientos en contextos reales</td>
+                    <td style="border: 1px solid #d1d5db; padding: 3px 5px; text-align: center; font-weight: bold; color: #7B3E7D;">${q_ce61.text}</td>
+                </tr>
+            `;
+
+            document.getElementById('pdf-final-grade').innerText = q_final.text;
+
+            // Tabla detallada de ejercicios (15 ítems)
+            const questions = [
+                { mod: 'Mód 1', title: 'P1: Valor posicional (3 en 239.627)', user: raw_m1_1 || 'Vacío', correct: '30000', ok: m1_1 },
+                { mod: 'Mód 1', title: 'P2: Descomposición 405.820', user: `${cm||0}CM ${dm||0}DM ${um||0}UM ${c||0}C ${d||0}D`, correct: '4CM 0DM 5UM 8C 2D', ok: m1_2 },
+                { mod: 'Mód 1', title: 'P3: Ordenación naturales (menor a mayor)', user: raw_m1_3 || 'Vacío', correct: '120540, 125004, 125040, 125400', ok: m1_3 },
+                { mod: 'Mód 2', title: 'a) 15 + 5 · 4 - 12', user: isNaN(val_m2_1)?'Vacío':val_m2_1, correct: '23', ok: m2_1 },
+                { mod: 'Mód 2', title: 'b) 30 - 3 · (8 - 2)', user: isNaN(val_m2_2)?'Vacío':val_m2_2, correct: '12', ok: m2_2 },
+                { mod: 'Mód 2', title: 'c) 40 : (12 - 4) + 6', user: isNaN(val_m2_3)?'Vacío':val_m2_3, correct: '11', ok: m2_3 },
+                { mod: 'Mód 2', title: 'd) 8 · 5 - 24 : 3', user: isNaN(val_m2_4)?'Vacío':val_m2_4, correct: '32', ok: m2_4 },
+                { mod: 'Mód 3', title: '1a) Temp. mediodía Teide', user: isNaN(val_m3_1a)?'Vacío':val_m3_1a, correct: '8 ºC', ok: m3_1a },
+                { mod: 'Mód 3', title: '1b) Temp. noche Teide', user: isNaN(val_m3_1b)?'Vacío':val_m3_1b, correct: '-1 ºC', ok: m3_1b },
+                { mod: 'Mód 3', title: '2) Planta final ascensor', user: isNaN(val_m3_2)?'Vacío':val_m3_2, correct: 'Planta 2', ok: m3_2 },
+                { mod: 'Mód 3', title: '3) Ordenación enteros (menor a mayor)', user: raw_m3_3 || 'Vacío', correct: '-8, -4, -1, 0, 2, 5', ok: m3_3 },
+                { mod: 'Mód 4', title: 'a) (-8) + (-5)', user: isNaN(val_m4_1a)?'Vacío':val_m4_1a, correct: '-13', ok: m4_1a },
+                { mod: 'Mód 4', title: 'b) (-12) - (-7)', user: isNaN(val_m4_1b)?'Vacío':val_m4_1b, correct: '-5', ok: m4_1b },
+                { mod: 'Mód 4', title: 'c) (-4) · (+6)', user: isNaN(val_m4_1c)?'Vacío':val_m4_1c, correct: '-24', ok: m4_1c },
+                { mod: 'Mód 4', title: 'd) (-35) : (-5)', user: isNaN(val_m4_1d)?'Vacío':val_m4_1d, correct: '7', ok: m4_1d }
+            ];
+
+            let errorHtml = '';
+            questions.forEach((q, idx) => {
+                const bg = idx % 2 === 0 ? '#ffffff' : '#f9fafb';
+                const statusTag = q.ok 
+                    ? `<span style="color: #2E9B70; font-weight: bold;">✔ Correcto</span>` 
+                    : `<span style="color: #dc2626; font-weight: bold;">✖ Incorrecto</span> <span style="color:#6b7280; font-size:7.5px;">(Corr: ${q.correct})</span>`;
+                
+                errorHtml += `
+                    <tr style="background-color: ${bg};">
+                        <td style="border: 1px solid #d1d5db; padding: 2px 4px; text-align: center; font-weight: bold;">${q.mod}</td>
+                        <td style="border: 1px solid #d1d5db; padding: 2px 4px;">${q.title}</td>
+                        <td style="border: 1px solid #d1d5db; padding: 2px 4px; text-align: center;">${q.user}</td>
+                        <td style="border: 1px solid #d1d5db; padding: 2px 4px; text-align: center;">${statusTag}</td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('pdf-errors-table').innerHTML = errorHtml;
+        }
+
+        function downloadPDF() {
+            const element = document.getElementById('pdf-template');
+            
+            const opt = {
+                margin:       [5, 5, 5, 5],
+                filename:     `SA1_Informe_1ESO_${(document.getElementById('alumno-nombre').value || 'Alumno').replace(/\s+/g, '_')}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+</body>
+</html>
